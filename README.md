@@ -30,7 +30,7 @@ The integration modules point to a completely deprecated and unresponsive API pa
 
 ### Affected Components
 
-- `/plugins/copilot-backend` (The core TypeScript backend service handling external network calls and data streams)
+- /plugins/copilot-backend (The core TypeScript backend service handling external network calls and data streams)
 - TypeScript interface contracts and data models mapping the incoming JSON payload fields
 
 ---
