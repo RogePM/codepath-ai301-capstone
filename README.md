@@ -1,4 +1,4 @@
-# Contribution [1]: 🚀 Copilot: Migrate to the New GitHub Copilot Usage Metrics API #7360
+# Contribution [1]: Copilot: Migrate to the New GitHub Copilot Usage Metrics API #7360
 
 **Contribution Number:** [1]  
 **Student:** Rogelio Perez  
