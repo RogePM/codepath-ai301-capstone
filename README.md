@@ -11,7 +11,7 @@
 
 I selected this specific issue within the Backstage community-plugins ecosystem because it presents a great opportunity to learn real-world API lifecycle management and master software deprecation workflows. My programming background is rooted heavily in JavaScript and TypeScript, and I want to use this experience to challenge myself with production-grade data refactoring and object manipulation tasks. Rather than building isolated standalone tools, this issue forces me to dig deep into an existing enterprise codebase, analyze how multiple files communicate, and learn how to safely transition live systems away from legacy third-party endpoints.
 
-Working on this migration is a deliberate step toward doing better as a software engineer and expanding my asynchronous development capabilities. Navigating a massive, open-source framework like Backstage will teach me how to read and extend architecture designed by senior developers, write clean data validation schemas, and write resilient TypeScript code. Overcoming the technical challenges of parsing complex REST response models will not only solidify my problem-solving habits but also build the exact engineering maturity I need to succeed in my long-term academic and global career goals.
+
 ---
 
 ## Understanding the Issue
