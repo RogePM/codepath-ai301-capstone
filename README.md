@@ -2,8 +2,8 @@
 
 **Contribution Number:** [1]  
 **Student:** Rogelio Perez  
-**Issue:** [[GitHub issue link]](https://github.com/backstage/community-plugins/issues/7360)  
-**Status:** [Phase I] [ Complete]
+**Issue:** [[copilot-metrics- Legacy API]](https://github.com/backstage/community-plugins/issues/7360)  
+**Status:** [Phase II] [ Complete]
 
 ---
 
@@ -38,20 +38,30 @@ The integration modules point to a completely deprecated and unresponsive API pa
 ## Reproduction Process
 
 ### Environment Setup
+- **Development Path:** Initiated local development via terminal because Dev Containers glitched and didn't let me open  the app. I executed the workspace using Backstage's vendored Yarn engine directly via Node (`node ..\..\.yarn\releases\yarn-4.14.1.cjs start`).
+- **Challenges Resolved:**
+- 1. **Config Crash:** The frontend initially crashed with `Missing required config value at 'app.title'`. I diagnosed that the local `app-config.yaml` was wiped. I restored the core `app`, `backend`, and `catalog` blocks.
+  2. **Auth Wall Bypass:** The Copilot dashboard is gated behind GitHub Enterprise credentials. I bypassed this by passing a dummy token (`ghp_fake_token_for_local_dev`) and configuring `defaultView: organization`.
+  3. **API Rate/Crash Loop:** To prevent the background worker from immediately crashing against the dead GitHub API on boot, I added `initialDelay: seconds: 600` to the schedule config.
+  4. **Database Seeding:** Since the frontend reads from a local SQLite DB, I created and ran a custom `seed-fake-data.js` script to inject 14 days of mock data into `copilot_daily_totals` for `entity_id=my-fake-org`. 
 
-[Notes on setting up your local development environment - challenges you faced, how you solved them]
+**Active Working Branch:** https://github.com/RogePM/community-plugins/tree/fix-copilot-metrics-api-7360
 
 ### Steps to Reproduce
+1. Read the internal documentation and codebase paths, noting that `src/service/router.ts` splits routes between `/legacy/*` and `/v2/*`.
+2. Configure `app-config.yaml` with a dummy GitHub token and a 10-minute scheduler delay.
+3. Start the local server using `node ..\..\.yarn\releases\yarn-4.14.1.cjs start` inside of community-plugins\workspaces\copilot to generate the SQLite database schema.
+4. Stop the server and seed the local `database/backstage_plugin_copilot.db` with fake metrics by running `node seed-fake-data.js`.
+5. Restart the server and navigate to `http://localhost:3000/copilot`.
+6. **Expected:** Based on the issue ticket, I expected the background ingestion scraper to eventually fail and throw `404/410 Gone` errors attempting to hit the deprecated `/copilot/metrics` API (which sunset on April 2, 2026).
+7. **Actual :** The app successfully mounted and didn't crash. To investigate why the legacy code wasn't failing, I dug into the Git history using `git log --oneline --all -- workspaces/copilot/`. I discovered the issue was **already fixed upstream.** Commit `95bf1ed02` (PR #9405), merged on June 11, 2026 by Scott Guymer, had just executed this exact API migration.
 
-1. [Step 1]
-2. [Step 2]
-3. [Observed result]
-
+---
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** [Link to commit in your fork]
-- **Screenshots/logs:** [If applicable]
-- **My findings:** [What you discovered during reproduction]
+- **Commit showing reproduction:** 👉 https://github.com/RogePM/community-plugins/tree/fix-copilot-metrics-api-7360
+- **Screenshots/logs:** N/A (Terminal output verified via Git Log)
+- **My findings:** The codebase search verified that `GithubClient.ts` was deleted and replaced by `GithubClientV2.ts`. The Git log confirmed the migration was merged just a few days prior to my environment setup.
 
 ---
 
@@ -59,30 +69,28 @@ The integration modules point to a completely deprecated and unresponsive API pa
 
 ### Analysis
 
-[Your analysis of the root cause - what's causing the issue?]
+The root cause of the original issue was that GitHub officially deprecated the legacy `/copilot/metrics` REST API on April 2, 2026. The Backstage ingestion engine was hardcoded to hit this dead endpoint. Without a migration, background scraper tasks fail with network exceptions, leaving enterprise dashboards completely blank.
 
-### Proposed Solution
+### Proposed Solution (How it was solved upstream)
 
-[High-level description of your fix approach]
+The solution required rewriting the backend client to use the new GitHub Usage Metrics API (`/copilot/metrics/reports/enterprise-1-day`), updating the `X-GitHub-Api-Version` header to `2026-03-10`, and adjusting the TypeScript interfaces to process the new signed download URLs correctly.
 
-### Implementation Plan
+### Implementation Plan (UMPIRE framework)
 
-Using UMPIRE framework (adapted):
+*Because this issue was resolved upstream during my investigation phase, this UMPIRE plan serves as an architectural post-mortem of the merged fix, proving my understanding of the required solution.*
 
-**Understand:** [Restate the problem]
+* **Understand:** The objective was to replace the deprecated `/copilot/metrics` endpoint with the modern `/copilot/metrics/reports/*` API to maintain dashboard functionality and prevent scraping crashes.
 
-**Match:** [What similar patterns/solutions exist in the codebase?]
+* **Match:** By reviewing the diff of commit `95bf1ed02`, I confirmed the maintainers used the exact strategy I anticipated by utilizing `GithubClientV2.ts` to construct the new request headers.
 
-**Plan:** [Step-by-step implementation plan]
-1. [Modify file X to do Y]
-2. [Add function Z]
-3. [Update tests]
+* **Plan & Implement:** 1. **Deleted Legacy Client:** The old `GithubClient.ts` (which made `GET /enterprises/{slug}/copilot/metrics` calls) was entirely deleted from `src/client/`.
+    2. **Promoted V2 Client:** `GithubClientV2.ts` became the primary driver, successfully routing to the modern `GET /enterprises/{slug}/copilot/metrics/reports/enterprise-1-day`.
+    3. **Updated Headers:** The Octokit API version header was successfully bumped from `2022-11-28` to `2026-03-10`.
+    
+* **Review:** The upstream PR adhered to strict TypeScript typing and included a `changeset` file to log the version bump.
 
-**Implement:** [Link to your branch/commits as you work]
-
-**Review:** [Self-review checklist - does it follow the project's contribution guidelines?]
-
-**Evaluate:** [How will you verify it works?]
+* **Evaluate:** The test suite (`GithubClientV2.test.ts`) was updated with new Jest mocks to simulate the payload of the 2026-03-10 API version, ensuring no regressions.
+### Analysis
 
 ---
 
