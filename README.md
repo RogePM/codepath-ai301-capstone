@@ -59,8 +59,10 @@ The integration modules point to a completely deprecated and unresponsive API pa
 ---
 ### Reproduction Evidence
 
-- **Commit showing reproduction:** 👉 https://github.com/RogePM/community-plugins/tree/fix-copilot-metrics-api-7360
-- **Screenshots/logs:** N/A (Terminal output verified via Git Log)
+- **Commit showing reproduction:**  https://github.com/RogePM/community-plugins/tree/fix-copilot-metrics-api-7360
+- **Screenshots/logs:** :
+  <img width="1450" height="882" alt="image" src="https://github.com/user-attachments/assets/23b04dff-9238-4164-9214-6aedb00f2bb3" />
+
 - **My findings:** The codebase search verified that `GithubClient.ts` was deleted and replaced by `GithubClientV2.ts`. The Git log confirmed the migration was merged just a few days prior to my environment setup.
 
 ---
