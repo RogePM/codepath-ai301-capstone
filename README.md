@@ -5,6 +5,8 @@
 **Issue:** https://github.com/backstage/community-plugins/issues/9458  
 **Status:** Phase IV — Complete - MERGED
 
+pull request and fixes
+https://github.com/backstage/community-plugins/pull/9723
 ---
 
 ## Why I Chose This Issue
