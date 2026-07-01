@@ -3,7 +3,7 @@
 **Contribution Number:** 1  
 **Student:** Rogelio Perez  
 **Issue:** https://github.com/backstage/community-plugins/issues/9458  
-**Status:** Phase IV — Complete
+**Status:** Phase IV — Complete - MERGED
 
 ---
 
@@ -134,6 +134,8 @@ Spent the first week reading the codebase — `router.ts`, `GithubClientV2.ts`, 
 ### Week 4 Progress
 
 Implemented all three fixes. Encountered several environmental issues (filesystem sync between Windows and Linux shell, CRLF line endings, a git rebase conflict from a concurrent remote edit, and TypeScript strict-mode errors the CI surfaced). Addressed two rounds of automated reviewer feedback before all 11 CI checks passed.
+
+All changes have been MERGED, making this a completed contribution
 
 ### Code Changes
 
