@@ -61,13 +61,7 @@ The copilot workspace is a self-contained Backstage app. Setting it up locally w
 
 ### Reproduction Evidence
 
-- **Commit showing reproduction:**  https://github.com/RogePM/community-plugins/tree/fix-copilot-metrics-api-7360
-- **Screenshots/logs:** :
-  <img width="1450" height="882" alt="image" src="https://github.com/user-attachments/assets/23b04dff-9238-4164-9214-6aedb00f2bb3" />
 
-- **My findings:** The codebase search verified that `GithubClient.ts` was deleted and replaced by `GithubClientV2.ts`. The Git log confirmed the migration was merged just a few days prior to my environment setup.
-
- 
 - **demo-bugs.mjs:** Saved at `workspaces/copilot/demo-bugs.mjs`. Reproduces Bugs 2 and 3 without a real GitHub token.
 - **seed-fake-data.js:** Saved at `workspaces/copilot/seed-fake-data.js`. Seeds 14 days of fake metrics for the local dashboard.
 - **My findings:** The core issue is that GitHub's API returns a flat object per download URL, but the parser was written expecting a nested array structure described in a type definition that didn't match the real API.
