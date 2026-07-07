@@ -1,3 +1,10 @@
+# My CodePath Capstone Journey
+
+* [Contribution 1: GitHub Copilot Metrics API Migration](./README.md)
+* [Contribution 2: Copilot Chart X-axis PostgreSQL Bug](./contribution-2.md)
+
+---
+
 # Contribution 1: Fix three enterprise v2 API bugs in Backstage Copilot plugin
 
 **Contribution Number:** 1  
