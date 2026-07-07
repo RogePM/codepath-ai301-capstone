@@ -30,5 +30,5 @@ The chart data renders, but the X-axis tick labels and tooltips display "Invalid
 - **Backend:** The route handlers in `service/router.cjs.js` returning raw Knex query results without normalizing the date.
 - **Frontend:** The `formatDay` utility function in `chartUtils.esm.js`.
 
----
-*(Note: I will fill out the Phase II Reproduction and UMPIRE sections later this week as I begin the local implementation!)*
+<img width="1970" height="1276" alt="image" src="https://github.com/user-attachments/assets/0e780464-a5bb-4e8c-a0c1-d3ee7d49d103" />
+
