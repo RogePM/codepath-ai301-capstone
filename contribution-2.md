@@ -3,7 +3,7 @@
 **Contribution Number:** 2  
 **Student:** Rogelio Perez Montero  
 **Issue:** https://github.com/backstage/community-plugins/issues/9540
-**Status:** Phase I Complete
+**Status:** Phase II Complete
 
 ---
 
