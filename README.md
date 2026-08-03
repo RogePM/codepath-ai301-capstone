@@ -2,6 +2,7 @@
 
 * [Contribution 1: GitHub Copilot Metrics API Migration](./README.md)
 * [Contribution 2: Copilot Chart X-axis PostgreSQL Bug](./contribution-2.md)
+* [Contribution 2: Rollbar plugin can't log in with newer Rollbar API keys](./contribution-3.md)
 
 ---
 
