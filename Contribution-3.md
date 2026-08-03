@@ -6,7 +6,7 @@
 
 **Issue:** [backstage/community-plugins#10111](https://github.com/backstage/community-plugins/issues/10111)
 
-**Status:** Not Started (issue selected, no PR opened yet)
+**Status:** Phase I
 
 ---
 
